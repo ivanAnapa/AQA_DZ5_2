@@ -1,6 +1,5 @@
 package ru.netology.testmode.test;
 
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,7 @@ class AuthTest {
     @DisplayName("Should successfully login with active registered user")
     void shouldSuccessfulLoginIfRegisteredActiveUser() {
         AuthPage authPage = new AuthPage();
-        String expected = "  Личный кабинет";
+        String expected = "  Личный кабинет!";
         var registeredUser = getRegisteredUser("active");
 
         authPage.authorizeByLogAndPass(registeredUser.getLogin(), registeredUser.getPassword());
