@@ -13,7 +13,6 @@ import static ru.netology.testmode.data.DataGenerator.getRandomLogin;
 import static ru.netology.testmode.data.DataGenerator.getRandomPassword;
 
 class AuthTest {
-    AuthPage authPage = new AuthPage();
 
     @BeforeEach
     void setup() {
@@ -23,57 +22,58 @@ class AuthTest {
     @Test
     @DisplayName("Should successfully login with active registered user")
     void shouldSuccessfulLoginIfRegisteredActiveUser() {
+        AuthPage authPage = new AuthPage();
         String expected = "  Личный кабинет";
         var registeredUser = getRegisteredUser("active");
 
-        authPage
-                .authorizeByLogAndPass(registeredUser.getLogin(), registeredUser.getPassword());
-        $x("//*[@id='root']//h2").shouldBe(Condition.text(expected));
+        authPage.authorizeByLogAndPass(registeredUser.getLogin(), registeredUser.getPassword());
+        authPage.validateSuccessAuthText(expected);
     }
 
     @Test
     @DisplayName("Should get error message if login with not registered user")
     void shouldGetErrorIfNotRegisteredUser() {
+        AuthPage authPage = new AuthPage();
         String expected = "Ошибка! Неверно указан логин или пароль";
         var notRegisteredUser = getUser("active");
 
-        authPage
-                .failedAuthorizeByLogAndPass(notRegisteredUser.getLogin(), notRegisteredUser.getPassword())
-                .validateErrorText(expected);
+        authPage.authorizeByLogAndPass(notRegisteredUser.getLogin(), notRegisteredUser.getPassword());
+        authPage.validateErrorText(expected);
     }
 
     @Test
     @DisplayName("Should get error message if login with blocked registered user")
     void shouldGetErrorIfBlockedUser() {
+        AuthPage authPage = new AuthPage();
         String expected = "Ошибка! Пользователь заблокирован";
         var blockedUser = getRegisteredUser("blocked");
 
-        authPage.failedAuthorizeByLogAndPass(blockedUser.getLogin(), blockedUser.getPassword())
-                .validateErrorText(expected);
+        authPage.authorizeByLogAndPass(blockedUser.getLogin(), blockedUser.getPassword());
+        authPage.validateErrorText(expected);
     }
 
     @Test
     @DisplayName("Should get error message if login with wrong login")
     void shouldGetErrorIfWrongLogin() {
+        AuthPage authPage = new AuthPage();
         String expected = "Ошибка! Неверно указан логин или пароль";
         var registeredUser = getRegisteredUser("active");
         var wrongLogin = getRandomLogin();
 
-        authPage
-                .failedAuthorizeByLogAndPass(wrongLogin, registeredUser.getPassword())
-                .validateErrorText(expected);
+        authPage.authorizeByLogAndPass(wrongLogin, registeredUser.getPassword());
+        authPage.validateErrorText(expected);
     }
 
     @Test
     @DisplayName("Should get error message if login with wrong password")
     void shouldGetErrorIfWrongPassword() {
+        AuthPage authPage = new AuthPage();
         String expected = "Ошибка! Неверно указан логин или пароль";
         var registeredUser = getRegisteredUser("active");
         var wrongPassword = getRandomPassword();
 
-        authPage
-                .failedAuthorizeByLogAndPass(registeredUser.getLogin(), wrongPassword)
-                .validateErrorText(expected);
+        authPage.authorizeByLogAndPass(registeredUser.getLogin(), wrongPassword);
+        authPage.validateErrorText(expected);
     }
 
 }

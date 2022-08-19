@@ -12,6 +12,7 @@ public class AuthPage {
     private final SelenideElement loginBtn = $("[data-test-id='action-login']");
     private final SelenideElement errorText =
             $x("//*[@data-test-id='error-notification']//*[@class='notification__content']");
+    private final SelenideElement successAuthText = $x("//*[@id='root']//h2");
 
     public void authorizeByLogAndPass(String login, String password) {
         loginField.setValue(login);
@@ -19,11 +20,8 @@ public class AuthPage {
         loginBtn.click();
     }
 
-    public AuthPage failedAuthorizeByLogAndPass(String login, String password) {
-        loginField.setValue(login);
-        passwordField.setValue(password);
-        loginBtn.click();
-        return this;
+    public void validateSuccessAuthText(String expectedText) {
+        successAuthText.shouldBe(Condition.text(expectedText));
     }
 
     public void validateErrorText(String expectedText) {
