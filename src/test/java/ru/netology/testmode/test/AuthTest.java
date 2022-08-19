@@ -22,7 +22,7 @@ class AuthTest {
     @DisplayName("Should successfully login with active registered user")
     void shouldSuccessfulLoginIfRegisteredActiveUser() {
         AuthPage authPage = new AuthPage();
-        String expected = "  Личный кабинет!";
+        String expected = "  Личный кабинет";
         var registeredUser = getRegisteredUser("active");
 
         authPage.authorizeByLogAndPass(registeredUser.getLogin(), registeredUser.getPassword());
